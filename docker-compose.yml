@@ -1,0 +1,13 @@
+version: '3'
+services:
+  web:
+    build:
+      # where we want our files to pull from
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+      # map current directory outside of the container into the app folder inside of the container
+      - .:/app

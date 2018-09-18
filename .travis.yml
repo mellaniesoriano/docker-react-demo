@@ -1,0 +1,26 @@
+sudo: required
+services:
+  - docker
+
+# series of cmds that get executed before tests are run
+before_install:
+  - docker build -t mellanie/docker-react-demo -f Dockerfile.dev .
+
+# contain all the diff cmds to run test suite
+script:
+  - docker run -it mellanie/docker-react-demo npm run test -- --coverage
+
+deploy: 
+  provider: elasticbeanstalk
+  # depends where you originally created your elastic beanstalk instance
+  region: "us-east-1"
+  app: "docker-react-demo"
+  env: "DockerReactDemo-env"
+  bucket_name: "elasticbeanstalk-us-east-1-952132649457"
+  bucket_path: "docker-react-demo"
+  # anytime we push code to branch master that's the time to deploy
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
