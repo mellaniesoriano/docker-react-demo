@@ -2,7 +2,6 @@
 FROM node:alpine as builder
 WORKDIR '/app'
 COPY package.json .
-RUN npm i -g gulp
 RUN npm i
 COPY . .
 RUN npm run build
